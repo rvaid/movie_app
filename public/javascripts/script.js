@@ -1,4 +1,4 @@
-var hostname = 'http://localhost:3000';
+var hostname = 'http://ec2-13-232-91-43.ap-south-1.compute.amazonaws.com:3000';
 $(document).ready(function(){	
    
    var tab=location.hash;
@@ -39,33 +39,7 @@ front_path="http://image.tmdb.org/t/p/w92/";
    //profile_load(profobj);
  }
  else if(tab=="#search"){
-//    $.ajax({
 
-//         url: hostname + '/movies/search/1',
-//         data : {"keyword" : },
-        
-//         error: function (err) {
-//           console.log(err)
-//         },
-//         contentType: 'application/json',
-//         success: function (data) {
-    
-//           dataobj = JSON.parse(data);
-
-//         //   console.log(JSON.parse(dataarray))
-    
-    
-//         },
-//         complete: function (data) {
-
-//             search_movie(dataobj);
-    
-//           // $(el).closest('.card-body').find('span').text(renamedata)
-//           // toBeRenamed = 1
-//         },
-//         type: 'GET'
-//       });//ajax to search movie
-//    //search_movie(sample_obj);
  }
  else{
    console.log("for home load");
@@ -109,6 +83,7 @@ function home_load(dataobj) {
 pagination(dataobj);
 parse_movie(dataobj);
 $(".pagination").on("click",".page-item",function(){
+  // console.log(cp)
 	$(".card").each(function() {
 		$(this).hide();
 	})
@@ -149,32 +124,65 @@ $(".card").on("click","i",function(){
    var movie_name=movie_obj.original_title;
    var movie_id=movie_obj.id;
    console.log(movie_name, movie_id);
+   var hasLiked = 2
+   var obj ={}
 	var response= $.trim($(this).text());
 	if(response=="sentiment_very_satisfied"){
+     hasLiked = 1
    	if($(this).css("color","green")){
+      
    		$(".material-icons").each(function(){
    			$(this).css("color","black");
    		});
-         
+       
    		$(this).css("color","green");
          
    	}
    	else{
+      hasLiked = 2
    		$(this).css("color","black");
    	}
    }
    if(response=="sentiment_very_dissatisfied"){
+    hasLiked = 0
    	if($(this).css("color","red")){
+       
    		$(".material-icons").each(function(){
    			$(this).css("color","black");
    		})
    		$(this).css("color","red");
    	}
    	else{
+       hasLiked = 2
    		$(this).css("color","black");
    	}
    }
-	console.log(response);
+   $.ajax({
+
+    url: hostname + '/users/like',
+    data : JSON.stringify({"MovieName":movie_name, "hasLiked":hasLiked}),
+    
+    error: function (err) {
+      console.log(err)
+    },
+    contentType: 'application/json',
+    success: function (data) {
+     
+      console.log(data)
+    //   console.log(JSON.parse(dataarray))
+
+
+    },
+    complete: function (data) {
+
+        alert("Success")
+
+      // $(el).closest('.card-body').find('span').text(renamedata)
+      // toBeRenamed = 1
+    },
+    type: 'POST'
+  });
+	
 })// func on click icon
 };//home_load
    function profile_load(profobj) {
@@ -183,8 +191,8 @@ $(".card").on("click","i",function(){
       console.log(profobj);
       $(".head h1").text("Your Profile");
       $("#prof_content").append("<div class='col-md-4 card' style='overflow-y:inherit;' id='prof_image'></div>");
-      //$("#prof_image").append("<img src='"+profobj[0].profilePicUrl+"'>Display Pic</img>");
-      $("#prof_image").append("<img class='card-img' style='height:inherit;' src='css/images/movie2.jpg' alt='Card image'>");
+      $("#prof_image").append("<img src='"+profobj[0].profilePicUrl+"'>Display Pic</img>");
+      // $("#prof_image").append("<img class='card-img' style='height:inherit;' src='css/images/movie2.jpg' alt='Card image'>");
       $("#prof_content #prof_image").after("<div id='prof_details'class='col-md-8' style='height:500px;display:inline-block;'></div>");
       $("#prof_details").append("<p>NAME: "+profobj[0].displayName+" </p>");
       $("#prof_details").append("<ul id='movie_like'><span>Movies you liked:</span> </ul>");
@@ -211,11 +219,12 @@ $(".card").on("click","i",function(){
          }
       });*/
    };//profile loas
-$("form").submit(function(){
+$("#search").on('click',function(){
    search_title= $("#search-field").val();
-    $.ajax({
+   if(search_title.length!=0){
+     $.ajax({
 
-        url: hostname + '/movies/popular/'+topage,
+        url: hostname + '/movies/search/1',
         data : JSON.stringify({"keyword" : search_title}),
         
         error: function (err) {
@@ -225,23 +234,25 @@ $("form").submit(function(){
         success: function (data) {
          
           dataobj = JSON.parse(data);
-        //   console.log(JSON.parse(dataarray))
-    
+          console.log(dataobj)
+          search_movie(dataobj);
     
         },
         complete: function (data) {
 
-            search_movie(dataobj);
+           
     
           // $(el).closest('.card-body').find('span').text(renamedata)
           // toBeRenamed = 1
         },
         type: 'POST'
-      });//page_change
+      });
+   }
+   //page_change
 //    search_movie(sample_obj);
 })//form_submit
 function search_movie(searchobj) {
-    pagination(searchobj)
+    // pagination(searchobj)
    parse_movie(searchobj);
 }//search_movie
 function parse_movie(dataobj){
@@ -283,25 +294,25 @@ function pagination(dataobj) {
       $(this).remove();
    })
    if(cp<=3){
-      $(".pagination").append("<li class='page-item' id='Prrevious'><a class='page-link' href='#''>Previous</a></li>");
+      // $(".pagination").append("<li class='page-item' id='Prrevious'><a class='page-link' href='#''>Previous</a></li>");
       $(".pagination").append("<li class='page-item'id='1'><a class='page-link' href='#''>1</a></li>");
       $(".pagination").append("<li class='page-item'id='2'><a class='page-link' href='#''>2</a></li>");
       $(".pagination").append("<li class='page-item'id='3'><a class='page-link' href='#''>3</a></li>");
       $(".pagination").append("<li class='page-item'id='none'><a class='page-link' href='#''>...</a></li>");
       $(".pagination").append("<li class='page-item'id='"+dataobj.total_pages+"'><a class='page-link' href='#''>"+dataobj.total_pages+"</a></li>");
-      $(".pagination").append("<li class='page-item'id='Next'><a class='page-link' href='#''>Next</a></li>");
+      $(".pagination").append("<li class='page-item'id='"+(cp+1)+"'><a class='page-link' href='#''>Next</a></li>");
    }
    else if(cp>=dataobj.total_pages-3){
-      $(".pagination").append("<li class='page-item' id='Prrevious'><a class='page-link' href='#''>Previous</a></li>");
+      $(".pagination").append("<li class='page-item' id='"+(cp-1)+"'><a class='page-link' href='#''>Previous</a></li>");
       $(".pagination").append("<li class='page-item'id='1'><a class='page-link' href='#''>1</a></li>");
       $(".pagination").append("<li class='page-item'id='none'><a class='page-link' href='#''>...</a></li>");
       $(".pagination").append("<li class='page-item'id='"+(dataobj.total_pages-2)+"'><a class='page-link' href='#''>"+(dataobj.total_pages-2)+"</a></li>");
       $(".pagination").append("<li class='page-item'id='"+(dataobj.total_pages-1)+"'><a class='page-link' href='#''>"+(dataobj.total_pages-1)+"</a></li>");
       $(".pagination").append("<li class='page-item'id='"+dataobj.total_pages+"'><a class='page-link' href='#''>"+dataobj.total_pages+"</a></li>");
-      $(".pagination").append("<li class='page-item'id='Next'><a class='page-link' href='#''>Next</a></li>");
+      // $(".pagination").append("<li class='page-item'id='Next'><a class='page-link' href='#''>Next</a></li>");
    }
    else{
-      $(".pagination").append("<li class='page-item' id='Prrevious'><a class='page-link' href='#''>Previous</a></li>");
+      $(".pagination").append("<li class='page-item' id='"+(cp-1)+"'><a class='page-link' href='#''>Previous</a></li>");
       $(".pagination").append("<li class='page-item'id='1'><a class='page-link' href='#''>1</a></li>");
       $(".pagination").append("<li class='page-item'id='2'><a class='page-link' href='#''>2</a></li>");
       $(".pagination").append("<li class='page-item'id='3'><a class='page-link' href='#''>3</a></li>");
@@ -313,7 +324,7 @@ function pagination(dataobj) {
       $(".pagination").append("<li class='page-item'id='"+(dataobj.total_pages-2)+"'><a class='page-link' href='#''>"+(dataobj.total_pages-2)+"</a></li>");
       $(".pagination").append("<li class='page-item'id='"+(dataobj.total_pages-1)+"'><a class='page-link' href='#''>"+(dataobj.total_pages-1)+"</a></li>");
       $(".pagination").append("<li class='page-item'id='"+dataobj.total_pages+"'><a class='page-link' href='#''>"+dataobj.total_pages+"</a></li>");
-      $(".pagination").append("<li class='page-item'id='Next'><a class='page-link' href='#''>Next</a></li>");
+      $(".pagination").append("<li class='page-item'id='"+(cp+1)+"'><a class='page-link' href='#''>Next</a></li>");
    }
    $(".pagination").find("#"+cp).addClass("active");
    

@@ -31,15 +31,15 @@ findOrCreateUser = function (user, callback) {
 
 
 likeOrDislikeMovie = function (user, movieObj, callback) {
-    movieObj = JSON.parse(req.body)
-    movieObj = { "MovieName": "Kung Fu Panda", "hasLiked": "1" }
+    // movieObj = JSON.parse(req.body)
+    // movieObj = { "MovieName": "Kung Fu Panda", "hasLiked": "1" }
     let query = `INSERT INTO user_movies 
                 SET user_id=?,MovieName=?,hasLiked=?
                 ON DUPLICATE KEY UPDATE user_id=?,MovieName=?`
 
     let email;
 
-
+    console.log(movieObj)
     user["emails"].forEach(function (emailObj) {
         if (emailObj["type"] == "account") {
             email = emailObj["value"]

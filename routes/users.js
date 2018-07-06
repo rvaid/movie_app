@@ -17,7 +17,7 @@ router.get('/', ensureAuthenticated, function(req, res, next) {
 
 
 router.post('/like', ensureAuthenticated, function(req, res, next){
-  // res.send("yes")
+  console.log("HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
   userModel.likeOrDislikeMovie(req.user["profile"], req.body, function(err){
     console.log(err)
     if(err != null){
