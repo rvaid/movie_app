@@ -1,42 +1,69 @@
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>File Browser</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <!-- <link rel="stylesheet" href="../stylesheets/doclib.css"> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+<!DOCTYPE html >
+<html >
+<head>
+  <head lang="en">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+   <link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="../javascripts/script.js"></script>
   </head>
-  <title>file browser</title>
-<body class="row" style="margin-left: 100px;margin-top: 100px">
-   <div class="filemanager">
-      <div class="create" style="float: right;">
-         <!-- <button id='createfol' type='button' >DELETE</button> -->
-         <button type="button" id="foldercreate">CREATE FOLDER </button>
-         <input type='text' name='foldername' placeholder='entr folder name here...'>
-         <button id='createfol' type='button' >CREATE</button>
-         <button type="button" id="filecreate">CREATE FILE</button>
-         <input type='text' name='filename' placeholder='entr file name here...' >
-         <button id='createfil' type='button' >CREATE</button>
-      </div>
-      <br/>
-      <div class="breadcrumbs"></div>
-      <br/>
-      <!-- <ul class="data"></ul> -->
-      <div class="card-deck">
-         <!-- <div class="nothingfound">
-            <div class="nofiles"></div>
-            <span>No files here.</span>
-            </div> -->
-      </div>
-   </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<title>MovieHunter</title>
+<!--[if IE 6]><link rel="stylesheet" href="css/ie6.css" type="text/css" media="all" /><![endif]-->
+</head>
+<body>
+<!-- START PAGE SOURCE -->
+<div id="shell">
+  <div id="header">
+    <h1 id="logo"><a href="#">MovieHunter</a></h1>
     
-    <script src="../javascripts/my.js"></script>
-  </body>
+    <div id="navigation">
+      <ul>
+        <li><a class="active" href="#HOME">HOME</a></li>
+        <li><a href="#Profile">Profile</a></li>
+        
+      </ul>
+    </div>
+    <div id="sub-navigation">
+      <div class="head">
+          <h2>Most Popular</h2>
+        <div id="search">
+          <form action="#search" method="get" accept-charset="utf-8">
+            <label for="search-field">SEARCH</label>
+            <input type="text" name="search field" placeholder="Enter search here" id="search-field" class="blink search-field"  />
+            <input type="submit" value="GO!" class="search-button" />
+          </form>
+      </div>
+      </div>
+    </div>
+  </div>
+<div id="main">      
+      <div class="box">
+        <div class="first"></div>
+        <div class="cl">&nbsp;</div>
+      </div>
+      <ul class="pagination">
+        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+      </ul>
+</div>
+<div id="profile">
+    <div id="prof_content" class="row" style="display:inline;">
+      
+    </div>
+  </div>
+  <div id="search_area">
+    
+  </div>
+</div>
+<!-- END PAGE SOURCE -->
+</body>
 </html>
