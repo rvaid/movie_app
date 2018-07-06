@@ -1,0 +1,2 @@
+CREATE UNIQUE INDEX unq user_movie_idx ON user_movies (user_id, MovieName);
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'root'
